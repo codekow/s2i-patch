@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# insert code sause for OS based depends
+# this file can be used in place of a Dockerfile
+# to patch s2i
+# 
+# TODO: example
+
+print_info(){
+
+echo "running stuff in bash...
+
+$(whoami)
+$(id)
+$(pwd)
+
+"
+}
+
+echo "start: custom s2i assemble"
+
+print_info
+
+echo "end: custom s2i assemble"
+
+
+${STI_SCRIPTS_PATH}/assemble

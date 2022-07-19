@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: s2i-python-ms-odbc-17
+parameters:
+  - name: APPLICATION_NAME
+    value: s2i-python-ms-odbc-17
+    required: true
+  - name: PATCH_PATH
+    value: /s2i-ms-odbc-17
+    required: true
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${APPLICATION_NAME}:latest
+    runPolicy: SerialLatestOnly
+    source:
+      contextDir: ${PATCH_PATH}
+      git:
+        uri: https://github.com/codekow/s2i-patch.git
+      type: Git
+    strategy:
+      dockerStrategy: {}
+      type: Docker
+    triggers:
+    - type: ConfigChange
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - name: latest

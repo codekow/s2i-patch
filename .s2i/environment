@@ -1,0 +1,6 @@
+# uncomment to run without gunincorn
+#APP_FILE=wsgi.py
+
+# fix node CA trust
+#REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-bundle.crt
+#NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-bundle.crt
