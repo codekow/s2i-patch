@@ -1,24 +1,25 @@
 # Introduction - Source to Image (s2i)
 
-Source-to-image (s2i) is a simple method of containerizing code on the OpenShift platform. The s2i process is lightweight, minimalistic, and barebones. 
+Source to image (s2i) is a simple method of containerizing code on the OpenShift platform (but can be used anywhere). The s2i process is lightweight, minimalistic, and barebones.
 
 This quick, paved path, allows you to put an application into a container with basic requirements to run your code. In short, s2i means...
 
-*YOU DON'T HAVE TO THINK ABOUT CONTAINERS!*
+*YOU DON'T HAVE TO KNOW MUCH ABOUT CONTAINERS!*
 
  Follow the links at the bottom to learn more.
 
 # Patch the s2i build?
 
-Patching s2i allows adding dependencies to a container that your application needs - which don't exist in the default s2i container.
+Patching s2i images allow adding dependencies that are not default - dependencies that do not exist in the default s2i container.
 
 ## Why patch the Python s2i build?
 
-Patch the s2i build if your app needs other dependencies. 
+Patch the s2i image if your app needs other dependencies.
 
 Examples include:
   - Gurobi client libraries
   - Database connection drivers
+  - Proxy ENV settings
 
 Available patch build config templates are stored in the [openshift](openshift) folder in this repo.
 
