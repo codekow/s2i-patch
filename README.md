@@ -47,11 +47,13 @@ oc process -f openshift/build-s2i-ms-odbc-17.yml | oc apply -f-
 
 #TheEasierWay
 
-Use `assemble` when you DO NOT need root for commands.
+Use `assemble` when you DO NOT need `root` for commands.
 
-You can also patch via s2i. This allows you to patch your container via whatever scripting method you prefer (by default it is bash).
+This allows you to customize your container via whatever scripting method you prefer (by default it is bash).
 
-Move the mess you call a `Dockerfile`, including those `RUN` lines, to `.s2i/bin/assemble`.
+Move the mess of `ENTRYPOINT` scripts and `Dockerfile` (non root) `RUN` lines to `.s2i/bin/assemble`.
+
+Move those `ENV` lines to `.s2i/environment`.
 
 See [.s2i/bin/assemble](.s2i/bin/assemble)
 
