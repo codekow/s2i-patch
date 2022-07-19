@@ -21,7 +21,7 @@ Examples include:
   - Database connection drivers
   - Proxy ENV settings
 
-Available patch build config templates are stored in the [openshift](openshift) folder in this repo.
+Templates for `Build Configs` are stored in the [openshift](openshift) folder in this repo.
 
 # Patch s2i via `Dockerfile`
 
