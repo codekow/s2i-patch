@@ -44,7 +44,7 @@ The following command will create a build config to patch a base s2i image
 oc process -f openshift/build-s2i-ms-odbc-17.yml | oc apply -f-
 ```
 
-# Customize s2i via `assemble`
+# Customize s2i via `assemble` or `run`
 
 #TheEasierWay
 
@@ -52,7 +52,7 @@ Use `assemble` when you DO NOT need `root` for commands.
 
 This allows you to customize your container via whatever scripting method you prefer (by default it is bash).
 
-Move the mess of `ENTRYPOINT` scripts and `Dockerfile` (non root) `RUN` lines to `.s2i/bin/assemble`.
+Move the mess of `ENTRYPOINT` scripts and `Dockerfile` (non root) `RUN` lines to `.s2i/bin/run` or `.s2i/bin/assemble` .
 
 Move those `ENV` lines to `.s2i/environment`.
 
