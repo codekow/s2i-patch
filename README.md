@@ -29,11 +29,11 @@ Available patch build config templates are stored in the [openshift](openshift) 
 Use a `Dockerfile` when you NEED `root` for commands.
 
 From a high level...
-1. Deploy code using the default s2i process
-2. Add templates from this repo into an OpenShift project (namespace)
-3. Click some buttons to layer / combine those templates into a new image
-4. Change your existing build from step #1 to build from the patched s2i image that you created in step #3
-5. Rejoice!!!
+- Deploy code using the default s2i process
+- Add templates from this repo into an OpenShift project (namespace)
+- Click some buttons to layer / combine those templates into a new image
+- Change your existing build from step #1 to build from the patched s2i image that you created in step #3
+- Rejoice!!!
 
 ## Quickstart Command
 The following command will create a build config to patch a base s2i image
