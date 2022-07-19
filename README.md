@@ -1,4 +1,4 @@
-# Introduction - Source to Image
+# Introduction - Source to Image (s2i)
 
 Source-to-image (s2i) is a simple method of containerizing code on the OpenShift platform. The s2i process is lightweight, minimalistic, and barebones. 
 
@@ -8,7 +8,7 @@ This quick, paved path, allows you to put an application into a container with b
 
  Follow the links at the bottom to learn more.
 
-# Patch the Source to Image (s2i) build?
+# Patch the s2i build?
 
 Patching s2i allows adding dependencies to a container that your application needs - which don't exist in the default s2i container.
 
@@ -43,7 +43,7 @@ The following command will create a build config to patch a base s2i image
 oc process -f openshift/build-s2i-ms-odbc-17.yml | oc apply -f-
 ```
 
-# Patch s2i via `assemble` script
+# Customize s2i via `assemble` script
 
 #TheEasierWay
 
