@@ -44,7 +44,7 @@ The following command will create a build config to patch a base s2i image
 oc process -f openshift/build-s2i-ms-odbc-17.yml | oc apply -f-
 ```
 
-# Customize s2i via `assemble` script
+# Customize s2i via `assemble`
 
 #TheEasierWay
 
