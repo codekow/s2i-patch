@@ -1,5 +1,0 @@
-dash==2.6.*
-dash-core-components==2.*
-dash-html-components==2.*
-gunicorn==20.*
-plotly==5.*
