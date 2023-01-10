@@ -2,6 +2,7 @@ FROM nvcr.io/nvidia/tritonserver:22.11-py3
 
 ENV STI_SCRIPTS_PATH=/usr/libexec/s2i/
 COPY s2i/bin/ $STI_SCRIPTS_PATH
+COPY usr/ /usr/
 
 ### Setup user for build execution and application runtime
 ENV APP_ROOT=/opt/app-root
