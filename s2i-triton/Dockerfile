@@ -20,4 +20,4 @@ USER 1001
 
 EXPOSE 8000 8001 8002
 
-CMD tritonserver --model-repository=${MODEL_REPOSITORY:-/opt/apt-root/src/}
+CMD $STI_SCRIPTS_PATH/run

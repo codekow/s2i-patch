@@ -3,4 +3,7 @@
 
 set -e
 
+# display usage
+$STI_SCRIPTS_PATH/usage
+
 tritonserver --model-repository=${MODEL_REPOSITORY:-$HOME/src}
