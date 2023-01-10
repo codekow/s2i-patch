@@ -34,10 +34,15 @@ Build an image with a model via s2i (w/ git repo):
 oc new-app s2i-triton:latest~https://github.com/codekow/ml-models.git --context-dir=models
 ```
 
-
 You can then run the resulting image via:
 
 ```
 oc get pods
 oc exec <pod> -- curl localhost:8000/v2/models/< model name >
 ```
+
+## Links
+
+- https://github.com/triton-inference-server/server
+- https://github.com/openshift/source-to-image
+- https://github.com/sclorg/container-common-scripts

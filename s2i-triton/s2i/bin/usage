@@ -10,7 +10,8 @@ cat <<EOF
 
 This is a S2I triton server, ${DISTRO} base image:
 
-There are multiple ways how to run the image, see documentation at:
+There are multiple ways to use this image, see documentation at:
+
 https://github.com/codekow/s2i-patch/tree/main/s2i-triton
 
 The default directory for installing your models sources is
