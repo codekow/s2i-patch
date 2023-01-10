@@ -1,0 +1,23 @@
+#!/bin/sh
+
+which lsb_release && lsb_release -ircd
+
+DISTRO=`cat /etc/*-release | grep ^ID= | grep -Po '".*?"' | tr -d '"'`
+NAMESPACE=centos
+[[ $DISTRO =~ rhel* ]] && NAMESPACE=rhscl || DISTRO=unknown
+
+cat <<EOF
+This is a S2I triton ${DISTRO} base image:
+There are multiple ways how to run the image, see documentation at:
+https://github.com/sclorg/s2i-python-container/blob/master/3.8/README.md
+
+To build it in Openshift, run:
+oc new-app nvcr.io/nvidia/tritonserver:22.11-py3~codekow/s2i-patch.git --context-dir=s2i-triton
+
+To use it in Openshift, run:
+oc new-app s2i-tritonserver:latest~codekow/ml-models.git --context-dir=models
+
+You can then run the resulting image via:
+oc get pods
+oc exec <pod> -- curl localhost:8000/v2/models/< model name >
+EOF
