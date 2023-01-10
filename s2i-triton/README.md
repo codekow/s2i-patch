@@ -3,14 +3,41 @@
 This project consists of how to create a container with a model for serving on triton
 
 ## Usage
-```
-To build it in Openshift, run:
-oc new-app nvcr.io/nvidia/tritonserver:22.11-py3~codekow/s2i-patch.git --context-dir=s2i-triton
 
-To use it in Openshift, run:
-oc new-app s2i-tritonserver:latest~codekow/ml-models.git --context-dir=models
+Build s2i image in Openshift, run:
+
+```
+# use template
+oc process -f openshift/build-s2i-triton.yml | oc apply -f-
+```
+
+Build an image with a model via s2i (w/ git repo):
+
+Git folder structure:
+
+```
+models
+└── [ model name ]
+    └── 1 (version)
+        └── model.savedmodel
+            ├── saved_model.pb
+```
+
+
+```
+oc new-app s2i-triton:latest~https://github.com/codekow/ml-models.git --context-dir=models
+```
+
+Build an image with a model via s2i (w/ git repo):
+
+```
+oc new-app s2i-triton:latest~https://github.com/codekow/ml-models.git --context-dir=models
+```
+
 
 You can then run the resulting image via:
+
+```
 oc get pods
 oc exec <pod> -- curl localhost:8000/v2/models/< model name >
 ```
