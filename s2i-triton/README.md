@@ -15,83 +15,115 @@ Triton model folder structure:
 
 ## Usage
 
-Build s2i image in Openshift, run:
+NOTE: `oc new-app` commands will error before the image is built; be patient.
+
+### Build S2I Image
+
+Build s2i image in Openshift
 
 ```
 oc new-build \
   https://github.com/codekow/s2i-patch.git \
   --name s2i-triton \
-  --context-dir /s2i-triton
+  --context-dir /s2i-triton \
   --strategy docker
 ```
 
-Build an image with a model via s2i (w/ git repo):
+### Use S2I Image to serve models
+
+Deploy model via git repo
 
 ```
+APP_NAME=example-triton-server
+
 oc new-app \
   s2i-triton:latest~https://github.com/codekow/s2i-patch.git \
-  --name example-triton-server \
+  --name ${APP_NAME} \
   --strategy source \
   --context-dir=/s2i-triton/models
 ```
 
-Build a model serving image via local folder:
+Deploy model via s3
 
 ```
+APP_NAME=model-server-s3
+
+oc new-app \
+  s2i-triton:latest \
+  --name ${APP_NAME} \
+
+oc set env \
+  deploy/${APP_NAME} \
+  AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
+  AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+  AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+  MODEL_REPOSITORY=s3://bucket/path
+```
+
+
+Serve model via local folder
+
+```
+APP_NAME=model-server-local
+
 # configure new build config
 oc new-build \
   --image-stream s2i-triton:latest \
-  --name model-server \
+  --name ${APP_NAME} \
   --strategy source \
   --binary \
   --context-dir .
 
 # start build from local folder
 oc start-build \
-  model-server \
+  ${APP_NAME} \
   --from-dir models
 
-# deploy app from model image
+# deploy APP_NAME from model image
 oc new-app \
-  model-server \
+  ${APP_NAME} \
   --allow-missing-imagestream-tags
 
 # expose api via (tls) route
-oc expose service model-server \
+oc expose service \
+  ${APP_NAME} \
   --port 8000 \
   --overrides='{"spec":{"tls":{"termination":"edge"}}}'
 ```
 
-
-
 Test the model server
 
 ```
+APP_NAME=model-server
+
 # test via route
-HOST=$(oc get route model-server --template={{.spec.host}})
+HOST=$(oc get route ${APP_NAME} --template={{.spec.host}})
 
 curl -s https://${HOST}/v2 | python -m json.tool
-
 curl -s https://${HOST}/v2/models/< model name > | python -m json.tool
 
 
 # test via localhost
 oc get pods
-oc exec deploy/model-server -- curl -s localhost:8000/v2
-oc exec deploy/model-server -- curl -s localhost:8000/v2/models/< model name >
+oc exec deploy/${APP_NAME} -- curl -s localhost:8000/v2
+oc exec deploy/${APP_NAME} -- curl -s localhost:8000/metrics
+oc exec deploy/${APP_NAME} -- curl -s localhost:8000/v2/models/< model name >
 ```
 
 Expose metrics (optional)
 
 ```
-oc expose service model-server \
-  --name model-server-metrics \
+APP_NAME=model-server
+
+oc expose service ${APP_NAME} \
+  --name ${APP_NAME}-metrics \
   --port 8002 \
   --overrides='{"spec":{"tls":{"termination":"edge"}}}'
+
+HOST=$(oc get route ${APP_NAME}-metric --template={{.spec.host}})
+curl -s https://${HOST}/metrics | python -m json.tool
+
 ```
-
-You can then run the resulting image via:
-
 
 ## Links
 
