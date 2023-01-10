@@ -2,6 +2,17 @@
 
 This project consists of how to create a container with a model for serving on triton
 
+## Folder Info
+
+Triton model folder structure:
+
+```
+[ model name ]
+    └── 1 (version)
+        └── model.savedmodel
+            ├── saved_model.pb
+```
+
 ## Usage
 
 Build s2i image in Openshift, run:
@@ -12,18 +23,6 @@ oc new-build \
   --name s2i-triton \
   --context-dir /s2i-triton
   --strategy docker
-```
-
-Build an image with a model via s2i (w/ git repo):
-
-Git folder structure:
-
-```
-models
-└── [ model name ]
-    └── 1 (version)
-        └── model.savedmodel
-            ├── saved_model.pb
 ```
 
 Build an image with a model via s2i (w/ git repo):
@@ -54,16 +53,45 @@ oc start-build \
 
 # deploy app from model image
 oc new-app \
-  model-server
+  model-server \
+  --allow-missing-imagestream-tags
 
+# expose api via (tls) route
+oc expose service model-server \
+  --port 8000 \
+  --overrides='{"spec":{"tls":{"termination":"edge"}}}'
+```
+
+
+
+Test the model server
+
+```
+# test via route
+HOST=$(oc get route model-server --template={{.spec.host}})
+
+curl -s https://${HOST}/v2 | python -m json.tool
+
+curl -s https://${HOST}/v2/models/< model name > | python -m json.tool
+
+
+# test via localhost
+oc get pods
+oc exec deploy/model-server -- curl -s localhost:8000/v2
+oc exec deploy/model-server -- curl -s localhost:8000/v2/models/< model name >
+```
+
+Expose metrics (optional)
+
+```
+oc expose service model-server \
+  --name model-server-metrics \
+  --port 8002 \
+  --overrides='{"spec":{"tls":{"termination":"edge"}}}'
 ```
 
 You can then run the resulting image via:
 
-```
-oc get pods
-oc exec <pod> -- curl localhost:8000/v2/models/< model name >
-```
 
 ## Links
 
