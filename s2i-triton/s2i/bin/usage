@@ -7,6 +7,7 @@ NAMESPACE=centos
 [[ $DISTRO =~ rhel* ]] && NAMESPACE=rhscl || DISTRO="non RHEL"
 
 cat <<EOF
+
 This is a S2I triton server, ${DISTRO} base image:
 
 There are multiple ways how to run the image, see documentation at:
