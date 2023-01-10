@@ -8,7 +8,7 @@ NAMESPACE=centos
 
 cat <<EOF
 
-This is a S2I triton server, ${DISTRO} base image:
+This is a S2I triton server image; ${DISTRO} base image:
 
 There are multiple ways to use this image, see documentation at:
 
