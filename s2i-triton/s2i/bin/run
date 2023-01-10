@@ -3,4 +3,4 @@
 
 set -e
 
-tritonserver --model-repository=${MODEL_REPOSITORY:$HOME}
+tritonserver --model-repository=${MODEL_REPOSITORY:-$HOME/src}
