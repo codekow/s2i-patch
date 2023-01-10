@@ -22,4 +22,4 @@ USER 1001
 EXPOSE 8000 8001 8002
 
 # ENTRYPOINT /opt/nvidia/nvidia_entrypoint.sh
-CMD init-wrapper $STI_SCRIPTS_PATH/run
+CMD $STI_SCRIPTS_PATH/run
