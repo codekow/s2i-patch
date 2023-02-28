@@ -1,0 +1,3 @@
+gradio==3.*
+numpy==1.23.*
+altair==4.2.*
