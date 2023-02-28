@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/tritonserver:22.11-py3
+FROM nvcr.io/nvidia/tritonserver:23.01-py3
 
 ENV STI_SCRIPTS_PATH=/usr/libexec/s2i/
 COPY s2i/bin/ $STI_SCRIPTS_PATH
