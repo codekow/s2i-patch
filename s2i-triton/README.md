@@ -154,15 +154,44 @@ APP_NAME=model-server
 HOST=$(oc get route "${APP_NAME}" --template={{.spec.host}})
 
 curl -s https://${HOST}/v2 | python -m json.tool
-curl -s https://${HOST}/v2/models/< model name > | python -m json.tool
+curl -s https://${HOST}/v2/models/< model name > | python -m json.tool > model.json
 
 
+# https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/protocol/extension_model_repository.html#index
+curl -X POST -H "Content-Type: application/json" \
+     -d @scripts/model.json \
+     ${HOST}:8000/v2/models/fingerprint/infer | python -m json.tool
+```
+
+```
+{
+  "model_name": "fingerprint",
+  "model_version": "1",
+  "outputs": [
+    {
+      "name": "dense_5",
+      "datatype": "FP32",
+      "shape": [
+        1,
+        1
+      ],
+      "data": [
+        1
+      ]
+    }
+  ]
+}
+```
+
+```
 # test via localhost
 oc get pods
 
-oc exec "deploy/${APP_NAME}" -- curl -s localhost:8000/v2
-oc exec "deploy/${APP_NAME}" -- curl -s localhost:8000/metrics
-oc exec "deploy/${APP_NAME}" -- curl -s localhost:8000/v2/models/< model name >
+oc exec deploy/${APP_NAME} -- curl -s localhost:8000/metrics
+oc exec deploy/${APP_NAME} -- curl -s localhost:8000/v2
+oc exec deploy/${APP_NAME} -- curl -s localhost:8000/v2/repository/index
+oc exec deploy/${APP_NAME} -- curl -s localhost:8000/v2/models/< model name >
+oc exec deploy/${APP_NAME} -- curl -s localhost:8000/v2/models/< model name >/config
 ```
 
 ## Links
