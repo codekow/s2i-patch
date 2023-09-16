@@ -1,7 +1,7 @@
 FROM nvcr.io/nvidia/tritonserver:23.01-py3
 
 ENV STI_SCRIPTS_PATH=/usr/libexec/s2i/
-COPY s2i/bin/ $STI_SCRIPTS_PATH
+COPY s2i/bin/ ${STI_SCRIPTS_PATH}
 COPY usr/ /usr/
 
 ### Setup user for build execution and application runtime
@@ -19,7 +19,9 @@ WORKDIR ${APP_ROOT}/src
 
 USER 1001
 
+ENV HOME=${APP_ROOT}/src
+
 EXPOSE 8000 8001 8002
 
 # ENTRYPOINT /opt/nvidia/nvidia_entrypoint.sh
-CMD $STI_SCRIPTS_PATH/run
+CMD ${STI_SCRIPTS_PATH}/run
