@@ -1,0 +1,3 @@
+[submodule "s2i-cuda/common"]
+	path = s2i-cuda/common
+	url = https://github.com/sclorg/container-common-scripts
