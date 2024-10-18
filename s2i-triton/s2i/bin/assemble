@@ -1,7 +1,0 @@
-#!/bin/bash
-
-echo "Moving models to $HOME ..."
-mv -v /tmp/src/* "$HOME"
-
-# set permissions for any installed artifacts
-fix-permissions /opt/app-root -P
