@@ -7,6 +7,6 @@ set -e
 $STI_SCRIPTS_PATH/usage
 
 tritonserver \
-  --model-repository=${MODEL_REPOSITORY:-$HOME/src} \
+  --model-repository=${MODEL_REPOSITORY:-$HOME} \
   --model-control-mode=poll \
   --repository-poll-secs=60
